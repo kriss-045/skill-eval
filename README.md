@@ -1,6 +1,12 @@
-# skill-reviewer-eval
+# skill-eval
 
-A Claude agent skill that evaluates and scores other Claude skills. Give it a skill folder and it returns a structured JSON report with dimension scores, specific findings, and prioritized fixes.
+A Claude agent skill that evaluates and scores other Claude skills. Give it a skill folder and it returns a structured report with scores, findings, and prioritized fixes.
+
+## Install
+
+```bash
+npx skills add kriss-045/skill-eval
+```
 
 ## What it does
 
@@ -11,7 +17,7 @@ This skill applies a two-step sequential evaluation to avoid that failure mode:
 1. **Structural & Functional Assessment** — does this skill work?
 2. **Excellence Assessment** — does this skill work *well*?
 
-The output is a JSON object you can parse, display, or feed into another tool.
+The output is a plain text report you can read, share, or act on directly.
 
 ## Scoring
 
@@ -44,53 +50,32 @@ The `references/` folder contains six evaluation checklists applied during the r
 
 ## Output format
 
-```json
-{
-  "overallScore": 74,
-  "scoreLabel": "Good",
-  "overallSummary": "...",
-  "baseline": { "passed": true, "score": 10, "maxScore": 10, "failures": [] },
-  "dimensions": [
-    {
-      "id": "instruction_completeness",
-      "label": "Instruction Completeness",
-      "score": 16,
-      "maxScore": 20,
-      "weight": 0.20,
-      "findings": [
-        {
-          "severity": "high",
-          "finding": "...",
-          "why": "...",
-          "fix": "..."
-        }
-      ],
-      "strengths": ["..."]
-    }
-  ],
-  "topFixes": [
-    { "rank": 1, "dimension": "...", "finding": "...", "fix": "..." }
-  ]
-}
-```
-
-Every finding names the exact location of the gap and what breaks because of it. Every fix names exactly what to add or change — not just that something should be improved.
-
-## Installation
-
-Copy the `skill-reviewer-eval` folder into your Claude skills directory:
+The skill produces a plain text report in this structure:
 
 ```
-~/.claude/skills/skill-reviewer-eval/
-├── SKILL.md
-└── references/
-    ├── checklist-1-basics.md
-    ├── checklist-2-discoverability.md
-    ├── checklist-3-execution.md
-    ├── checklist-4-quality.md
-    ├── checklist-5-safety.md
-    └── checklist-6-consistency.md
+================================================================================
+                        AGENT SKILL EVALUATION REPORT
+================================================================================
+
+Skill Name: your-skill
+Evaluated: [date]
+Total Items Evaluated: 59/59 ✓
+
+SUMMARY BY CATEGORY
+  BASICS:          X/8 passed
+  DISCOVERABILITY: X/9 passed
+  EXECUTION:       X/12 passed
+  QUALITY:         X/12 passed
+  SAFETY:          X/Y passed
+  CONSISTENCY:     X/10 passed
+
+OVERALL SCORE: XX/59 items passed (XX%)
+
+CRITICAL ISSUES / WARNINGS / STRENGTHS / PRIORITIZED FIX LIST / OVERALL ASSESSMENT
+================================================================================
 ```
+
+Every finding names the exact location of the gap. Every fix names exactly what to add or change.
 
 ## Usage
 
